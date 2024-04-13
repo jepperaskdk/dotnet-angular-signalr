@@ -1,14 +1,20 @@
 import * as signalR from "@microsoft/signalr"
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { WeatherForecast, WeatherForecastClient } from "src/services/generated/server.api";
+import { tap } from "rxjs";
 
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
 })
 export class HomeComponent {
-    private hubConnection: signalR.HubConnection
+    private client = inject(WeatherForecastClient);
+    private hubConnection: signalR.HubConnection;
 
     constructor() {
+        this.client.get()
+            .pipe(tap((r: WeatherForecast[]) => console.log(r)))
+            .subscribe();
         this.hubConnection = new signalR.HubConnectionBuilder()
             .withUrl('http://localhost:5000/hubs/game')
             .build();

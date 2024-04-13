@@ -11,12 +11,19 @@ builder.Services.AddCors(options =>
 });
 builder.Services.AddSignalR();
 builder.Services.AddControllersWithViews();
+builder.Services.AddOpenApiDocument();
 
 var app = builder.Build();
 app.UseCors("CorsPolicy");
 app.UseStaticFiles();
 app.UseRouting();
 app.MapHub<GameHub>("/hubs/game");
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseOpenApi();
+    app.UseSwaggerUi();
+}
 
 app.MapControllerRoute(
     name: "default",

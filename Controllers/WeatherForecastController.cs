@@ -3,7 +3,7 @@
 namespace DotnetAngularSignalr.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/v1/weatherforecast")]
 public class WeatherForecastController : ControllerBase
 {
     private static readonly string[] Summaries = new[]
